@@ -39,11 +39,18 @@ public class ProductServiceImpl implements ProductService{
 	public Product update(Integer id, Product pro) {
 		
 		Product productById = productRepository.findById(id).get();
-		pro.setName(productById.getName());
-		pro.setPrice(productById.getPrice());
-		pro.setImage(productById.getImage());
-		pro.setQuantity(productById.getQuantity());
+		productById.setName(pro.getName());
+		productById.setPrice(pro.getPrice());
+		productById.setImage(pro.getImage());
+		productById.setQuantity(pro.getQuantity());
 		
-		return productRepository.save(pro);
+		return productRepository.save(productById);
 	}
+
+	@Override
+	public List<Product> findByName(String name) {
+		return productRepository.findByName(name);
+	}
+	
+	
 }

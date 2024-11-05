@@ -12,8 +12,20 @@ import chewingGum from '../img/chewing-gum.jpg';
 import chips from '../img/chips.jpg';
 import NumberInput from "./numberInput";
 import BtnSent from "./BtnSent";
+import { useEffect, useState } from "react";
+import ProductService from "../service/index";
 
 const Home = () => {
+
+    const [product, setProduct] = useState([]);
+
+    const getAllProduct = async () => {
+        const res = await ProductService.listProduct();
+        if(res.status === 200){
+            setProduct(res.data);
+
+        }
+    }
     
     let items = [
         {itemId: "a01", itemName: "Twix", itemPrice: 1, itemCount: 2, imgUrl: twix},
@@ -25,18 +37,23 @@ const Home = () => {
         {itemId: "b02", itemName: "Chewing gum", itemPrice: 1.25, itemCount: 3, imgUrl: chewingGum},
         {itemId: "b03", itemName: "Chips", itemPrice: 1.30, itemCount: 4, imgUrl: chips}
       ];
+
+    useEffect(() => {
+        getAllProduct();
+    })
     return (
         <div className="App">
             <div className="container">
                 <h1 className="text-center">Vending machine app</h1>
                 <div className="alert alert-info text-center" role="alert">
                     <span className="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Add virtual money, purchase by clicking on item - and have fun!</div>
-                    <Product items={items}/>
+                    <Product items={product}/>
                     <div className="row text-center p-relative mt-4">
                         <div className="coins"></div>
                         <NumberInput label={"Nhập giá tiền"} />
-                        <BtnSent money={0} lastPurchased={""}/>
+                       {/* <BtnSent money={0} lastPurchased={""}/> */}
                     </div>
+                    {/* <BtnSent money={0} lastPurchased={""}/> */}
             </div>
         </div>
 

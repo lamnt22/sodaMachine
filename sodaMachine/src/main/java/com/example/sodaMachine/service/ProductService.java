@@ -17,4 +17,6 @@ public interface ProductService {
 
 	Product update(Integer id, Product pro);
 
+	List<Product> findByName(String name);
+
 }
