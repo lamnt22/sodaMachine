@@ -1,10 +1,10 @@
 import Item from "./item";
 
 const Product = (props) => {
-    const { items } = props;
+    const { purchaseItem, items } = props;
     const allItems = items.map((item, i) => {
         return (
-            <Item item={item} key={item.id} i={i} />
+            <Item item={item} purchaseItem={purchaseItem} key={item.itemId} i={i} />
         )
     })
     return (
