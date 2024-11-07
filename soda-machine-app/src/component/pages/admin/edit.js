@@ -16,7 +16,6 @@ const EditProduct = () => {
     const [valueQuantity, setValueQuantity] = useState('');
 
     const handleValueChange = (values) => {
-        // Lấy giá trị đã được định dạng
         setValue(values.value);
         formik.setFieldValue("price",values.value)
     };
@@ -40,10 +39,10 @@ const EditProduct = () => {
     const formik = useFormik({
         initialValues: product,
         validationSchema: Yup.object().shape({
-            name: Yup.string().required('Tên sản phẩm không được bỏ trống'),
-            price: Yup.number().required('Giá sản phẩm không được bỏ trống'),
-            quantity: Yup.number().required('Sô lượng sản phẩm không được bỏ trống'),
-            image: Yup.string()
+            name: Yup.string().required('Product name cannot be left blank'),
+            price: Yup.number().required('Product price cannot be left blank').moreThan(1000, "Price must be greater than 1000"),
+            quantity: Yup.number().required('Product quantity cannot be left blank').moreThan(0, "Price must be greater than 0"),
+            image: Yup.string().required('Image cannot be left blank')
         }),
         enableReinitialize: true,
         onSubmit: async data => {
@@ -101,55 +100,54 @@ const EditProduct = () => {
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                            {
-                                ((formik.errors.name && formik.touched.name) || 
-                                    (formik.errors.price && formik.touched.price) || 
-                                    (formik.errors.quantity && formik.touched.quantity) || 
-                                    (formik.errors.image && formik.touched.image))&&
-                                <div className="alert alert-warning" role="alert">
-                                    <p className="m-0 p-0">{formik.errors.name}</p>
-                                    <p className="m-0 p-0">{formik.errors.price}</p>
-                                    <p className="m-0 p-0">{formik.errors.quantity}</p>
-                                    <p className="m-0 p-0">{formik.errors.image}</p>
-                                </div>
-                            }
                                 <form onSubmit={formik.handleSubmit}>
 
                                     <div class="mb-3">
                                         <label class="form-label">Product Name:</label>
                                         <input type="text" class="form-control" name="name" placeholder="Product name" defaultValue={product.name} onChange={formik.handleChange} />
-
+                                        {
+                                            formik.errors.name && formik.touched.name &&
+                                            <p className="text-danger">{formik.errors.name}</p>
+                                        }
                                     </div>
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label" for="inputEmail4">Price:</label>
-                                            {/* <input type="number" class="form-control" name="price" placeholder="Price" onChange={formik.handleChange} /> */}
                                             <NumericFormat
                                                 class="form-control"
                                                 name="price"
                                                 placeholder="Price"
                                                 value={value}
                                                 onValueChange={handleValueChange}
-                                                prefix="₫"                 // Tiền tố là VNĐ
-                                                thousandSeparator={true}  // Ngăn cách hàng nghìn
-                                                decimalScale={0}          // Không hiển thị số thập phân
-                                                fixedDecimalScale={false} // Không cần hiển thị số thập phân mặc định
+                                                prefix="₫"                
+                                                thousandSeparator={true}  
+                                                decimalScale={0}         
+                                                fixedDecimalScale={false}
                                                 allowNegative={false}
                                             />
+                                             {
+                                                formik.errors.price && formik.touched.price &&
+                                                <p className="text-danger">{formik.errors.price}</p>
+                                            }
                                         </div>
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label" for="inputPassword4">Quantity:</label>
                                             <input type="number" class="form-control" name="quantity" placeholder="Quantity" defaultValue={valueQuantity} onChange={formik.handleChange} />
-
+                                            {
+                                                formik.errors.quantity && formik.touched.quantity &&
+                                                <p className="text-danger">{formik.errors.quantity}</p>
+                                            }
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label w-100">Image:</label>
                                         <input type="file" name="file" id="file" onChange={(e) => getBase64(e)} />
                                         <img id="blah" src={product.image ? product.image : formik.values.image} alt="avt" className="profileviewImage mt-2 mb-2" />
-                                        
+                                        {
+                                            formik.errors.image && formik.touched.image &&
+                                            <p className="text-danger">{formik.errors.image}</p>
+                                        }
                                     </div>
-                                    {/* <img src={{imageProduct}} width="100px" height="100px" />  */}
                                     <button type="submit" class="btn btn-primary">Save</button>
                                     <button type="button" class="btn btn-danger m-4" onClick={() => navigate('/admin')}>Cancel</button>
                                 </form>

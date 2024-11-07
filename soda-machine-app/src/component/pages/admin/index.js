@@ -34,6 +34,14 @@ const Admin = () => {
         }
     }
 
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('vi-VN', {
+          style: 'currency',
+          currency: 'VND',
+        }).format(amount);
+      };
+
+
     useEffect(() => {
         getAllProduct();
     }, []);
@@ -91,7 +99,7 @@ const Admin = () => {
                                                                             <tr key={pro.id}>
                                                                                 <td className="text-center">{index + 1}</td>
                                                                                 <td>{pro.name}</td>
-                                                                                <td>{pro.price}</td>
+                                                                                <td>{formatCurrency(pro.price)}</td>
                                                                                 <td>{pro.quantity}</td>
                                                                                 <td><img src={pro.image} width={150}></img></td>
                                                                                 <td style={{width: 150}}><Link to={'/admin/edit/'+pro.id}>Edit</Link></td>
