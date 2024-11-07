@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "../../layout/header";
 import NavBar from "../../layout/navbar";
 import { useEffect, useState } from "react";
@@ -7,7 +7,6 @@ import ProductService from "../../service";
 const Admin = () => {
 
     const [product, setProduct] = useState([]);
-    const navigate = useNavigate();
     
     const getAllProduct = async () => {
         const res = await ProductService.listProduct();
@@ -18,9 +17,13 @@ const Admin = () => {
     }
 
     
-    const deleteProduct = async (id) => {
-        alert("Bạn có chắc muốn xóa không?");
-        await ProductService.deleteProduct(id);
+    const deleteProductById = async (id) => {
+        alert("Are you sure delete this product?");
+        const res = await ProductService.deleteProduct(id);
+        if(res.status === 200){
+            alert('Delete this product successfull!');
+            getAllProduct();
+        }
     }
 
     const searchDataProduct = async (keyword) => {
@@ -91,8 +94,8 @@ const Admin = () => {
                                                                                 <td>{pro.price}</td>
                                                                                 <td>{pro.quantity}</td>
                                                                                 <td><img src={pro.image} width={150}></img></td>
-                                                                                <td style={{width: 150}}><a onClick={() => navigate(`/admin/edit/${pro.id}`)}>Sửa</a></td>
-                                                                                <td><a onClick={deleteProduct}>Xóa</a></td>
+                                                                                <td style={{width: 150}}><Link to={'/admin/edit/'+pro.id}>Edit</Link></td>
+                                                                                <td><Link onClick={() => deleteProductById(pro.id)}>Delete</Link></td>
                                                                             </tr>
                                                                         )
                                                                     })

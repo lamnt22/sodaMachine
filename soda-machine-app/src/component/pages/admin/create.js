@@ -38,12 +38,10 @@ const CreateProduct = () => {
             image: Yup.string().required('Hình ảnh không được bỏ trống')
         }),
         onSubmit: async data => {
-            console.log("Data add: ", data );
-            
             let res = await ProductService.addProduct(data);
             if (res.status === 200) {
                 navigate('/admin');
-                alert('thêm mới sản phẩm thành công')
+                alert('Insert product successfull!')
             }
         }
     })
@@ -137,9 +135,15 @@ const CreateProduct = () => {
                                     <div class="mb-3">
                                         <label class="form-label w-100">Image:</label>
                                         <input type="file" name="file" id="file" onChange={(e) => getBase64(e)} />
+                                        {
+                                            formik.values.image &&
+                                            <img id="blah" src={formik.values.image} alt="avt" className="profileviewImage mt-2 mb-2" />
+                                        }
+                                        
                                     </div>
                                     {/* <img src={{imageProduct}} width="100px" height="100px" />  */}
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="button" class="btn btn-danger m-4" onClick={() => navigate('/admin')}>Cancel</button>
                                 </form>
                             </div>
                         </div>

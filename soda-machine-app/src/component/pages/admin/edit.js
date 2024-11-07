@@ -47,12 +47,10 @@ const EditProduct = () => {
         }),
         enableReinitialize: true,
         onSubmit: async data => {
-            console.log("Data add: ", data);
-
             let res = await ProductService.updateProduct(param.id, data);
             if (res.status === 200) {
                 navigate('/admin');
-                alert('chỉnh sửa sản phẩm thành công')
+                alert('Edit product successfull')
             }
         }
     })
@@ -97,7 +95,7 @@ const EditProduct = () => {
                     <div class="container-fluid p-0">
 
                         <div class="mb-3">
-                            <h1 class="h3 d-inline align-middle">Insert product</h1>
+                            <h1 class="h3 d-inline align-middle">Edit product</h1>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -148,11 +146,12 @@ const EditProduct = () => {
                                     <div class="mb-3">
                                         <label class="form-label w-100">Image:</label>
                                         <input type="file" name="file" id="file" onChange={(e) => getBase64(e)} />
-                                        <img id="blah" src={product.image} alt="avt" className="profileviewImage mt-2 mb-2" />
+                                        <img id="blah" src={product.image ? product.image : formik.values.image} alt="avt" className="profileviewImage mt-2 mb-2" />
                                         
                                     </div>
                                     {/* <img src={{imageProduct}} width="100px" height="100px" />  */}
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="button" class="btn btn-danger m-4" onClick={() => navigate('/admin')}>Cancel</button>
                                 </form>
                             </div>
                         </div>
