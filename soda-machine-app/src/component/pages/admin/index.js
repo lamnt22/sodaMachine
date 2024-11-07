@@ -88,7 +88,7 @@ const Admin = () => {
                                                                     <th rowSpan="1" colSpan="1" style={{ width: "97.7875px" }} >Price</th>
                                                                     <th rowSpan="1" colSpan="1" style={{ width: "55.825px" }} >Quantity</th>
                                                                     <th rowSpan="1" colSpan="1" style={{ width: "150px" }}>Image</th>
-                                                                    <th >#</th>
+                                                                    <th style={{float: 'right'}}>#</th>
                                                                 </tr>
                                                             </thead>
 
@@ -102,8 +102,8 @@ const Admin = () => {
                                                                                 <td>{formatCurrency(pro.price)}</td>
                                                                                 <td>{pro.quantity}</td>
                                                                                 <td><img src={pro.image} width={150}></img></td>
-                                                                                <td style={{width: 150}}><Link to={'/admin/edit/'+pro.id}>Edit</Link></td>
-                                                                                <td><Link onClick={() => deleteProductById(pro.id)}>Delete</Link></td>
+                                                                                <td style={{width: 150, textAlign: 'right'}}><Link to={'/admin/edit/'+pro.id}>Edit</Link></td>
+                                                                                <td style={{textAlign: 'center'}}><Link onClick={() => deleteProductById(pro.id)}>Delete</Link></td>
                                                                             </tr>
                                                                         )
                                                                     })
